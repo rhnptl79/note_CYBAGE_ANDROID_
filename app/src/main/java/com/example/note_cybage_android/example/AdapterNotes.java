@@ -12,6 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.note_cybage_android.ActivityAddNote;
+import com.example.note_cybage_android.MainActivity;
+import com.example.note_cybage_android.R;
+
 import java.util.ArrayList;
 
 public class AdapterNotes extends RecyclerView.Adapter<AdapterNotes.MyViewHolder> {
