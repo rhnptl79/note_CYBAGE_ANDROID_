@@ -45,4 +45,20 @@ public class NotesData implements Serializable {
         return lat;
     }
 
+    public String getLng() {
+        return lng;
+    }
+
+    public String getVoicePath() {
+        return voicePath;
+    }
+    public int getCatId() {
+        return catId;
+    }
+
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
 }
