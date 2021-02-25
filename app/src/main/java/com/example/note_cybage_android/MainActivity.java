@@ -1,11 +1,13 @@
 package com.example.note_cybage_android;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +15,11 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.note_cybage_android.example.AdapterCategory;
+import com.example.note_cybage_android.example.CategoryData;
+import com.example.note_cybage_android.example.DatabaseHandler;
+import com.example.note_cybage_android.example.NotesData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements AdapterCategory.o
     String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.RECORD_AUDIO};
 
     int permsRequestCode = 200;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
