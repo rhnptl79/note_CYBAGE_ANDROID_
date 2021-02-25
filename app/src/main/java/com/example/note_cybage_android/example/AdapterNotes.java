@@ -47,5 +47,24 @@ public class AdapterNotes extends RecyclerView.Adapter<AdapterNotes.MyViewHolder
             }
         });
 
+        holder.iv_dlt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _db.deleteNotes(_list.get(position));
+                _list.remove(position);
+                notifyDataSetChanged();
+            }
+        });
+        holder.iv_move.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(_context, MainActivity.class);
+                intent.putExtra("from", "move");
+                intent.putExtra("noteData", _list.get(position));
+                _context.startActivity(intent);
+            }
+        });
+    }
+
 
 }
