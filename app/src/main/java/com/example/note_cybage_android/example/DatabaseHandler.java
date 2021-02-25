@@ -104,6 +104,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         deleteAllNotesCategory(data,listener);
     }
 
+    public void deleteAllNotesCategory(CategoryData data, AdapterCategory.onCatDelete listener){
+        ArrayList<NotesData> list=new ArrayList<>();
+        list.addAll(getAllNotes(String.valueOf(data.getcId())));
+        for (NotesData notesData:list){
+            deleteNotes(notesData);
+        }
+        listener.onCatRemove();
+    }
+    //Add Notes
+    public void addNotes(NotesData data) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_TITLE, data.getTitle()); // Notes title
+        values.put(KEY_DESCRIPTION, data.getDescription()); // Notes Description
+        values.put(KEY_IMAGE_PATH, data.getImagePath()); // Notes imagepath
+        values.put(KEY_LAT, data.getLat()); // Notes lat
+        values.put(KEY_LNG, data.getLng()); // Notes lng
+        values.put(KEY_VOICE_PATH, data.getVoicePath()); // Notes voice path
+        values.put(KEY_CAT_ID, String.valueOf(data.getCatId())); // Notes cat id
+        values.put(KEY_TIME_STAMP, GeneralFunction.getCurrentDateTime()); // Notes time stamp
+
+        // Inserting Row
+        db.insert(TABLE_NOTES, null, values);
+        //2nd argument is String containing nullColumnHack
+        db.close(); // Closing database connection
+    }
+
+
 }
 
 
