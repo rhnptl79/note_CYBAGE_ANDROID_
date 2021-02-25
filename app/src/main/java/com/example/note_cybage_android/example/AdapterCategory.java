@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -71,5 +74,25 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.MyView
         });
     }
 
+    @Override
+    public int getItemCount() {
+        return _list.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView tv_name;
+        RelativeLayout rv_base_click;
+        ImageView rm_cat;
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tv_name = itemView.findViewById(R.id.tv_name);
+            rv_base_click = itemView.findViewById(R.id.rv_base_click);
+            rm_cat = itemView.findViewById(R.id.rm_cat);
+        }
+    }
+
+    public interface onCatDelete{
+        public void onCatRemove();
+    }
 
 }
