@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.util.UUID;
+
 public class ActivityAddNote extends AppCompatActivity {
 
     private static final int REQUEST_LOCATION = 1;
@@ -157,7 +160,25 @@ public class ActivityAddNote extends AppCompatActivity {
                 break;
         }
     }
+    private void startRecording() {
+        String uuid = UUID.randomUUID().toString();
+        voice_path = getExternalCacheDir().getAbsolutePath() + "/" + uuid + ".3gp";
+        Log.i(MainActivity.class.getSimpleName(), voice_path);
 
+        recorder = new MediaRecorder();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setOutputFile(voice_path);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        try {
+            recorder.prepare();
+        } catch (IOException e) {
+            Log.e(MainActivity.class.getSimpleName() + ":startRecording()", "prepare() failed");
+        }
+
+        recorder.start();
+    }
 
 
 
