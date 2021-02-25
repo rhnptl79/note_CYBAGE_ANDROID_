@@ -28,6 +28,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aminography.choosephotohelper.ChoosePhotoHelper;
+import com.aminography.choosephotohelper.callback.ChoosePhotoCallback;
+import com.bumptech.glide.Glide;
+import com.example.note_cybage_android.example.DatabaseHandler;
+import com.example.note_cybage_android.example.NotesData;
+
 import java.io.IOException;
 import java.util.UUID;
 
