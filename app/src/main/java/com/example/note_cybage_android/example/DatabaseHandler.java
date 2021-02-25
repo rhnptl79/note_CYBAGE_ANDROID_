@@ -132,8 +132,59 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
+    // code to update the single note
+    public int updateNotes(NotesData data) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_TITLE, data.getTitle()); // Notes title
+        values.put(KEY_DESCRIPTION, data.getDescription()); // Notes Description
+        values.put(KEY_IMAGE_PATH, data.getImagePath()); // Notes imagepath
+        values.put(KEY_LAT, data.getLat()); // Notes lat
+        values.put(KEY_LNG, data.getLng()); // Notes lng
+        values.put(KEY_VOICE_PATH, data.getVoicePath()); // Notes voice path
+        values.put(KEY_CAT_ID, String.valueOf(data.getCatId())); // Notes cat id
+        values.put(KEY_TIME_STAMP, GeneralFunction.getCurrentDateTime()); // Notes time stamp
+
+
+
+        // updating row
+        return db.update(TABLE_NOTES, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(data.getnId()) });
+    }
+    // code to move the single note
+    public int moveNotes(NotesData data,String catId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_TITLE, data.getTitle()); // Notes title
+        values.put(KEY_DESCRIPTION, data.getDescription()); // Notes Description
+        values.put(KEY_IMAGE_PATH, data.getImagePath()); // Notes imagepath
+        values.put(KEY_LAT, data.getLat()); // Notes lat
+        values.put(KEY_LNG, data.getLng()); // Notes lng
+        values.put(KEY_VOICE_PATH, data.getVoicePath()); // Notes voice path
+        values.put(KEY_CAT_ID, catId); // Notes cat id
+        values.put(KEY_TIME_STAMP, GeneralFunction.getCurrentDateTime()); // Notes time stamp
+
+
+
+        // updating row
+        return db.update(TABLE_NOTES, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(data.getnId()) });
+    }
+
+
+
+
+
 
 }
+
+
+
+
+
+
 
 
 
