@@ -173,6 +173,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[] { String.valueOf(data.getnId()) });
     }
 
+    //Delete Notes
+    public void deleteNotes(NotesData data) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NOTES, KEY_ID + " = ?",
+                new String[] { String.valueOf(data.getnId()) });
+        db.close();
+    }
+    // code to get all notes in a list view
+    public List<NotesData> getAllNotes(String catId) {
+        List<NotesData> data = new ArrayList<NotesData>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_NOTES+" WHERE "+KEY_CAT_ID+"="+catId;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                NotesData notesData=new NotesData(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),
+                        cursor.getString(6),cursor.getString(7),cursor.getString(8));
+                // Adding category to list
+                data.add(notesData);
+            } while (cursor.moveToNext());
+        }
+
+        // return notes list
+        return data;
+    }
 
 
 
