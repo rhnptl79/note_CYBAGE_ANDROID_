@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.note_cybage_android.example.AdapterNotes;
+import com.example.note_cybage_android.example.DatabaseHandler;
+import com.example.note_cybage_android.example.NotesData;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
