@@ -1,11 +1,16 @@
 package com.example.note_cybage_android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -241,7 +246,32 @@ public class ActivityAddNote extends AppCompatActivity {
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                ActivityAddNote.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                ActivityAddNote.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        } else {
+            Criteria criteria = new Criteria();
+            String bestProvider = String.valueOf(locationManager.getBestProvider(criteria, true)).toString();
 
+            Location locationGPS = locationManager.getLastKnownLocation(bestProvider);
+            if (locationGPS != null) {
+                double lat = locationGPS.getLatitude();
+                double longi = locationGPS.getLongitude();
+                latitude = String.valueOf(lat);
+                longitude = String.valueOf(longi);
+                if (!getIntent().hasExtra("edit")) {
+
+                    location.setText("Your Location: " + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude);
+                }
+            } else {
+                //This is what you need:
+                locationManager.requestLocationUpdates(bestProvider, 1000, 0, this);
+                Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
 
 
