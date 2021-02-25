@@ -52,38 +52,53 @@ public class ActivityAddNote extends AppCompatActivity {
         latitude = "";
         longitude = "";
         db=new DatabaseHandler(this);
-    }
-    if (getIntent().hasExtra("edit")){
-        notesData=(NotesData)getIntent().getSerializableExtra("edit");
-        btnSave.setText("Update Note");
-        et_decription.setText(notesData.getDescription());
-        et_title.setText(notesData.getTitle());
-        latitude=notesData.getLat();
-        longitude=notesData.getLng();
 
-        image_path = notesData.getImagePath();
-        Glide.with(ActivityAddNote.this)
-                .load(notesData.getImagePath())
-                .into(add_image);
-        btn_rm_pic.setVisibility(View.VISIBLE);
-        location.setText("Map");
+        if (getIntent().hasExtra("edit")){
+            notesData=(NotesData)getIntent().getSerializableExtra("edit");
+            btnSave.setText("Update Note");
+            et_decription.setText(notesData.getDescription());
+            et_title.setText(notesData.getTitle());
+            latitude=notesData.getLat();
+            longitude=notesData.getLng();
 
-        if (!notesData.getVoicePath().toString().isEmpty()){
-            voice_path = notesData.getVoicePath();
-            btnPlayRecording.setVisibility(View.VISIBLE);
+            image_path = notesData.getImagePath();
+            Glide.with(ActivityAddNote.this)
+                    .load(notesData.getImagePath())
+                    .into(add_image);
+            btn_rm_pic.setVisibility(View.VISIBLE);
+            location.setText("Map");
+
+            if (!notesData.getVoicePath().toString().isEmpty()){
+                voice_path = notesData.getVoicePath();
+                btnPlayRecording.setVisibility(View.VISIBLE);
+            }
+
         }
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String geoUri = "http://maps.google.com/maps?q=loc:" + latitude + "," + longitude + " (" + "locationName" + ")";
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }}
+        });
+        getCurrentLocation();
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getIntent().hasExtra("edit")){
+                    db.updateNotes(new NotesData(notesData.getnId(), et_title.getText().toString(), et_decription.getText().toString(), image_path, latitude, longitude, voice_path, getIntent().getStringExtra("catId"), String.valueOf(System.currentTimeMillis())));
+                }else {
+                    db.addNotes(new NotesData(1, et_title.getText().toString(), et_decription.getText().toString(), image_path, latitude, longitude, voice_path, getIntent().getStringExtra("catId"), String.valueOf(System.currentTimeMillis())));
+                }
+                finish();
+            }
+        });
 
     }
-    location.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String geoUri = "http://maps.google.com/maps?q=loc:" + latitude + "," + longitude + " (" + "locationName" + ")";
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
-            if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(mapIntent);
-            }}
-    });
-    getCurrentLocation();
+
 
 
 
