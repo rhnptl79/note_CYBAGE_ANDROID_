@@ -203,36 +203,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return data;
     }
 
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
