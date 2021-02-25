@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -99,7 +100,63 @@ public class ActivityAddNote extends AppCompatActivity {
 
     }
 
+    public void onAddNoteClick(View view) {
+        switch (view.getId()) {
+            case R.id.add_image:
 
+                choosePhotoHelper = ChoosePhotoHelper.with(this)
+                        .asFilePath()
+                        .build(new ChoosePhotoCallback<String>() {
+                            @Override
+                            public void onChoose(String photo) {
+                                Log.d("Picc", photo);
+                                image_path = photo;
+                                Glide.with(ActivityAddNote.this)
+                                        .load(photo)
+                                        .into(add_image);
+                                btn_rm_pic.setVisibility(View.VISIBLE);
+                            }
+                        });
+
+                choosePhotoHelper.showChooser();
+                break;
+            case R.id.startRecordingButton:
+                startRecording();
+                startRecordingButton.setVisibility(View.GONE);
+                stopRecordingButton.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.stopRecordingButton:
+                stopRecording();
+                startRecordingButton.setVisibility(View.VISIBLE);
+                stopRecordingButton.setVisibility(View.GONE);
+                btnPlayRecording.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btnPlayRecording:
+                if (btnPlayRecording.getText().toString().equalsIgnoreCase("Play Recording")){
+                    isPlaying=true;
+                    btnPlayRecording.setText("Stop");
+                    playRecording();
+                }else{
+                    btnPlayRecording.setText("Play Recording");
+                    stopRecording();
+                }
+                break;
+
+            case R.id.btn_save:
+                if (getIntent().hasExtra("edit")){
+                    db.updateNotes(new NotesData(1, et_title.getText().toString(), et_decription.getText().toString(), image_path, latitude, longitude, voice_path, getIntent().getStringExtra("catId"), String.valueOf(System.currentTimeMillis())));
+                }else {
+                    db.addNotes(new NotesData(1, et_title.getText().toString(), et_decription.getText().toString(), image_path, latitude, longitude, voice_path, getIntent().getStringExtra("catId"), String.valueOf(System.currentTimeMillis())));
+                }
+                finish();
+                break;
+            case R.id.btn_rm_pic:
+                add_image.setImageResource(R.drawable.ic_add);
+                btn_rm_pic.setVisibility(View.GONE);
+                break;
+        }
+    }
 
 
 
