@@ -1,5 +1,6 @@
 package com.example.note_cybage_android.example;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -51,6 +52,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // Create tables again
         onCreate(db);
+    }
+
+    //Add Category
+    public void addCategory(CategoryData data) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_NAME, data.getcName()); // Category Name
+
+        // Inserting Row
+        db.insert(TABLE_CATEGORY, null, values);
+        //2nd argument is String containing nullColumnHack
+        db.close(); // Closing database connection
+
     }
 
 }
