@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class ActivityNotesList extends AppCompatActivity {
 
@@ -99,9 +100,26 @@ public class ActivityNotesList extends AppCompatActivity {
         rv_notes_list.setLayoutManager(new LinearLayoutManager(this));
         rv_notes_list.setAdapter(adapterNotes);
     }
+    private void getAllNotes(String catId){
+        List<NotesData> data = db.getAllNotes(catId);
+        listData.clear();
+        listData.addAll(data);
+        adapterNotes.notifyDataSetChanged();
+    }
+    private ArrayList<NotesData> searchText(String text){
+        ArrayList<NotesData> list=new ArrayList<>();
+        for(NotesData d : listData){
+            if(d.getTitle() != null && d.getTitle().contains(text)){
+                list.add(d);
+            }
+            //something here
+        }
+        listData.clear();
+        listData.addAll(list);
+        adapterNotes.notifyDataSetChanged();
+        return list;
     }
 }
-
 
 
 
