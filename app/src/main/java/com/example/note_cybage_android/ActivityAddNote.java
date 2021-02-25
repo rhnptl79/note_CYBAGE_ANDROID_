@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -179,6 +180,28 @@ public class ActivityAddNote extends AppCompatActivity {
 
         recorder.start();
     }
+
+    private void stopRecording() {
+        if (recorder != null) {
+            recorder.release();
+            recorder = null;
+        }
+
+        Toast.makeText(this,"Audio recorded!!",Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
