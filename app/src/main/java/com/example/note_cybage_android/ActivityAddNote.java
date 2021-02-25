@@ -189,7 +189,22 @@ public class ActivityAddNote extends AppCompatActivity {
 
         Toast.makeText(this,"Audio recorded!!",Toast.LENGTH_SHORT).show();
     }
-
+    private void playRecording() {
+        player = new MediaPlayer();
+        try {
+            player.setDataSource(voice_path);
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    stopPlaying();
+                }
+            });
+            player.prepare();
+            player.start();
+        } catch (IOException e) {
+            Log.e(MainActivity.class.getSimpleName() + ":playRecording()", "prepare() failed");
+        }
+    }
 
 
 
