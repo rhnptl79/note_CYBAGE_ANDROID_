@@ -2,8 +2,12 @@ package com.example.note_cybage_android.example;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -66,6 +70,38 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //2nd argument is String containing nullColumnHack
         db.close(); // Closing database connection
 
+    }
+
+    // code to get all contacts in a list view
+    public List<CategoryData> getAllCategory() {
+        List<CategoryData> data = new ArrayList<CategoryData>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_CATEGORY;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                CategoryData categoryData = new CategoryData(Integer.parseInt(cursor.getString(0)),cursor.getString(1));
+
+                // Adding category to list
+                data.add(categoryData);
+            } while (cursor.moveToNext());
+        }
+
+        // return category list
+        return data;
+    }
+
+    // Deleting single category
+    public void deleteCategory(CategoryData data, AdapterCategory.onCatDelete listener) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CATEGORY, KEY_ID + " = ?",
+                new String[] { String.valueOf(data.getcId()) });
+        db.close();
+        deleteAllNotesCategory(data,listener);
     }
 
 }
