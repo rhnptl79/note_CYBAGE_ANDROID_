@@ -26,5 +26,23 @@ public class NotesData implements Serializable {
         this.catId = Integer.parseInt(catId);
     }
 
+    public int getnId() {
+        return nId;
+    }
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public String getLat() {
+        return lat;
+    }
 
 }
