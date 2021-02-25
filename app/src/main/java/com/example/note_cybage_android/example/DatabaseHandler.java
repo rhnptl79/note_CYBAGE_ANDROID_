@@ -1,5 +1,7 @@
 package com.example.note_cybage_android.example;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -21,5 +23,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_CAT_ID = "cat_id";
     private static final String KEY_TIME_STAMP = "time";
 
+    public DatabaseHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        //3rd argument to be passed is CursorFactory instance
+    }
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String CREATE_CATEGORY_TABLE = "CREATE TABLE " + TABLE_CATEGORY + "("
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT" + ")";
+
+        String CREATE_NOTES_TABLE = "CREATE TABLE " + TABLE_NOTES + "("
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT,"+ KEY_DESCRIPTION + " TEXT,"
+                + KEY_IMAGE_PATH + " TEXT,"+ KEY_LAT + " TEXT,"+ KEY_LNG + " TEXT,"+ KEY_VOICE_PATH + " TEXT,"+
+                KEY_CAT_ID + " TEXT," +KEY_TIME_STAMP  + " TEXT" + ")";
+
+
+
+        db.execSQL(CREATE_CATEGORY_TABLE);
+        db.execSQL(CREATE_NOTES_TABLE);
+    }
 
 }
