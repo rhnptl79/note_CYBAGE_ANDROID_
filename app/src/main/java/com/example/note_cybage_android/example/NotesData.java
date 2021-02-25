@@ -14,6 +14,17 @@ public class NotesData implements Serializable {
     int catId;
     String timeStamp;
 
+    public NotesData(int nId,String title, String description, String imagePath, String lat, String lng, String voicePath,String catId,String timeStamp) {
+        this.nId = nId;
+        this.title = title;
+        this.description = description;
+        this.imagePath = imagePath;
+        this.lat = lat;
+        this.lng = lng;
+        this.voicePath = voicePath;
+        this.timeStamp = timeStamp;
+        this.catId = Integer.parseInt(catId);
+    }
 
 
 }
