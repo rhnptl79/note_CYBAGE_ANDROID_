@@ -205,7 +205,12 @@ public class ActivityAddNote extends AppCompatActivity {
             Log.e(MainActivity.class.getSimpleName() + ":playRecording()", "prepare() failed");
         }
     }
-
+    private void stopPlaying() {
+        if (player != null) {
+            player.release();
+            player = null;
+        }
+    }
 
 
 
