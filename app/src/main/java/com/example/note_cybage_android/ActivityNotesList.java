@@ -1,6 +1,7 @@
 package com.example.note_cybage_android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -86,7 +87,18 @@ public class ActivityNotesList extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAllNotes(getIntent().getStringExtra("catId"));
+    }
 
+    private void initView(){
+        adapterNotes = new AdapterNotes(this,listData,db);
+        rv_notes_list.setHasFixedSize(true);
+        rv_notes_list.setLayoutManager(new LinearLayoutManager(this));
+        rv_notes_list.setAdapter(adapterNotes);
+    }
     }
 }
 
