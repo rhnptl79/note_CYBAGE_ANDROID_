@@ -2,10 +2,13 @@ package com.example.note_cybage_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -50,4 +53,62 @@ public class ActivityAddNote extends AppCompatActivity {
         longitude = "";
         db=new DatabaseHandler(this);
     }
+    if (getIntent().hasExtra("edit")){
+        notesData=(NotesData)getIntent().getSerializableExtra("edit");
+        btnSave.setText("Update Note");
+        et_decription.setText(notesData.getDescription());
+        et_title.setText(notesData.getTitle());
+        latitude=notesData.getLat();
+        longitude=notesData.getLng();
+
+        image_path = notesData.getImagePath();
+        Glide.with(ActivityAddNote.this)
+                .load(notesData.getImagePath())
+                .into(add_image);
+        btn_rm_pic.setVisibility(View.VISIBLE);
+        location.setText("Map");
+
+        if (!notesData.getVoicePath().toString().isEmpty()){
+            voice_path = notesData.getVoicePath();
+            btnPlayRecording.setVisibility(View.VISIBLE);
+        }
+
+    }
+    location.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String geoUri = "http://maps.google.com/maps?q=loc:" + latitude + "," + longitude + " (" + "locationName" + ")";
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(mapIntent);
+            }}
+    });
+    getCurrentLocation();
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
